@@ -223,7 +223,7 @@ async function run() {
           // console.log(result)
         } catch (error) {
           console.log("error in updating");
-          // console.log(error)
+          console.log(error)
         }
 
         res.json({ success: true, orderId: order.id });
