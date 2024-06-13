@@ -212,7 +212,7 @@ async function run() {
 
         // Update user's subscription in the database
         try {
-          const result = await userCollection.updateOne(email, {
+          const result = await userCollection.updateOne({email}, {
             $set: {
               "subscription.plan": plan.name,
               "subscription.frequency": plan.frequency,
