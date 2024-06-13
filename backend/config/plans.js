@@ -1,5 +1,5 @@
 module.exports = {
-    free:{
+    Free:{
         postLimit: 2
     },
     Basic: {
