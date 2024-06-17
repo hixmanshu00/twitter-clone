@@ -112,11 +112,9 @@ async function run() {
         const { postLimit } = subscriptionPlans[currentPlan];
         // console.log(postLimit)
         if (user[0].posts >= postLimit) {
-          return res
-            .status(403)
-            .json({
-              message: "Posting limit reached for your subscription plan.",
-            });
+          return res.status(403).json({
+            message: "Posting limit reached for your subscription plan.",
+          });
         }
         const result = await postCollection.insertOne(post);
         try {
@@ -196,9 +194,6 @@ async function run() {
           receipt: `receipt_order_${Math.floor(Math.random() * 1000000)}`,
         });
 
-        // Send the invoice email
-        sendInvoiceEmail(email, plan);
-
         // Calculate subscription end date
         const startDate = new Date();
         let endDate;
@@ -212,19 +207,25 @@ async function run() {
 
         // Update user's subscription in the database
         try {
-          const result = await userCollection.updateOne({email}, {
-            $set: {
-              "subscription.plan": plan.name,
-              "subscription.frequency": plan.frequency,
-              "subscription.startDate": new Date(),
-              "subscription.endDate": endDate,
-            },
-          });
+          const result = await userCollection.updateOne(
+            { email },
+            {
+              $set: {
+                "subscription.plan": plan.name,
+                "subscription.frequency": plan.frequency,
+                "subscription.startDate": new Date(),
+                "subscription.endDate": endDate,
+              },
+            }
+          );
           // console.log(result)
         } catch (error) {
           console.log("error in updating");
-          console.log(error)
+          console.log(error);
         }
+
+        // Send the invoice email
+        sendInvoiceEmail(email, plan);
 
         res.json({ success: true, orderId: order.id });
       } catch (error) {
