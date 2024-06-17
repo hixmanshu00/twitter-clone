@@ -202,6 +202,8 @@ async function run() {
     });
 
     app.post("/payment/successful", async (req,res) =>{
+      const { plan, email } = req.body;
+
       try {
         
         // Calculate subscription end date
