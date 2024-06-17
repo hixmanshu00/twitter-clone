@@ -194,6 +194,16 @@ async function run() {
           receipt: `receipt_order_${Math.floor(Math.random() * 1000000)}`,
         });
 
+        res.json({ success: true, orderId: order.id });
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: error.message });
+      }
+    });
+
+    app.post("/payment/successful", async (req,res) =>{
+      try {
+        
         // Calculate subscription end date
         const startDate = new Date();
         let endDate;
@@ -226,13 +236,10 @@ async function run() {
 
         // Send the invoice email
         sendInvoiceEmail(email, plan);
-
-        res.json({ success: true, orderId: order.id });
       } catch (error) {
-        console.log(error);
-        res.status(500).json({ success: false, message: error.message });
+        console.log(error)
       }
-    });
+    })
 
     // patch
     app.patch("/userUpdates/:email", async (req, res) => {

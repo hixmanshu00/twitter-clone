@@ -30,9 +30,9 @@ const RazorpayCheckout = ({ plan, email }) => {
       name: 'Twitter Clone',
       description: 'Subscription Plan',
       order_id: orderId,
-      handler: function (response) {
+      handler:  async function (response) {
+        await axios.post('https://twitter-clone-aevo.onrender.com/payment/successful', { plan, email });
         alert('Payment successful');
-        // Handle post-payment actions like updating user subscription
       },
       prefill: {
         email: email,
